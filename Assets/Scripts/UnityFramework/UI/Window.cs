@@ -20,7 +20,7 @@ namespace Samurai.UnityFramework.UI
         {
             OnShow();
             this.SetActive(true);
-            if (TryGetComponent<WindowTransition>(out var transition))
+            if (TryGetComponent<UiTransition>(out var transition))
             {
                 await transition.Show(instant);
             }
@@ -28,7 +28,7 @@ namespace Samurai.UnityFramework.UI
 
         public async Awaitable Hide(bool instant = false)
         {
-            if (TryGetComponent<WindowTransition>(out var transition))
+            if (TryGetComponent<UiTransition>(out var transition))
             {
                 await transition.Hide(instant);
             }

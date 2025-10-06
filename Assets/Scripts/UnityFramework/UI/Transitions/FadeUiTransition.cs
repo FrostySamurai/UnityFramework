@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Samurai.UnityFramework.UI.Transitions
 {
-    public sealed class FadeWindowTransition : WindowTransition
+    public sealed class FadeUiTransition : UiTransition
     {
         [SerializeField] private CanvasGroup _canvasGroup;
         
