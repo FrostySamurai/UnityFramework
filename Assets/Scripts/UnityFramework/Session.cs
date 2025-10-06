@@ -38,7 +38,7 @@ namespace Samurai.UnityFramework
                 return default;
             }
 
-            return _sessionData.Get<T>();
+            return _sessionData.TryGet<T>(out var data) ? data : App.Get<T>();
         }
 
         public static bool TryGet<T>(out T data)
@@ -49,7 +49,9 @@ namespace Samurai.UnityFramework
                 return false;
             }
 
-            return _sessionData.TryGet(out data);
+            bool found = _sessionData.TryGet(out data);
+            found &= App.TryGet(out data);
+            return found;
         }
         
         public static void Save()

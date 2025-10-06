@@ -12,12 +12,16 @@ namespace Samurai.UnityFramework
 
         public static DataContainer Load(string id)
         {
-            Log.Debug("Loading.");
-            // TODO: try loading
+            Log.Debug($"Setting profile to '{id}'.", LogTag);
+            
+            // if (load)
+            // {
+                // TODO: load
+                // Log.Debug($"Profile loaded from save file!", LogTag);
+            // }
 
             _current = new DataContainer(id);
             
-            Log.Debug($"Profile '{id}' loaded.", LogTag);
             return _current;
         }
 
@@ -30,6 +34,7 @@ namespace Samurai.UnityFramework
             
             // TODO: saving?
             _current = null;
+            Log.Debug($"Disposed.", LogTag);
         }
 
         public static void Save()

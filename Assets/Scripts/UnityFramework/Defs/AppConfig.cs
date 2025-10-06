@@ -15,5 +15,7 @@ namespace Samurai.UnityFramework.Defs
         [Header("Scenes")]
         public string IntroScene;
         public string MainMenuScene;
+        public string LoadingScene;
+        public string SessionScene;
     }
 }

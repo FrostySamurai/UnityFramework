@@ -1,5 +1,6 @@
 using Samurai.UnityFramework.Events;
 using UnityEditor;
+using UnityEngine;
 
 namespace Samurai.UnityFramework
 {
@@ -8,7 +9,10 @@ namespace Samurai.UnityFramework
         private const string LogTag = "Application";
         private static DataContainer _data = new(nameof(App));
 
+        public static bool IsPaused { get; private set; }
         public static EventAggregator Events => _data.Get<EventAggregator>();
+
+        #region Lifecycle
 
         public static void Init()
         {
@@ -26,6 +30,49 @@ namespace Samurai.UnityFramework
             
             Log.Debug("Disposed.", LogTag);
         }
+
+        public static void Quit()
+        {
+            Dispose();
+            
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
+        #endregion Lifecycle
+
+        #region Gameplay
+
+        public static void TogglePause()
+        {
+            if (IsPaused)
+            {
+                Pause();
+            }
+            else
+            {
+                Resume();
+            }
+        }
+
+        public static void Pause()
+        {
+            IsPaused = true;
+            Time.timeScale = 0f;
+        }
+
+        public static void Resume()
+        {
+            IsPaused = false;
+            Time.timeScale = 1f;
+        }
+
+        #endregion Gameplay
+
+        #region Data
 
         public static T Get<T>()
         {
@@ -47,15 +94,6 @@ namespace Samurai.UnityFramework
             _data.Remove<T>();
         }
 
-        public static void Quit()
-        {
-            Dispose();
-            
-#if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-        }
+        #endregion Data
     }
 }
