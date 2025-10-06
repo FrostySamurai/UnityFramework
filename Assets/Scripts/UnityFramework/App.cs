@@ -1,4 +1,5 @@
 using Samurai.UnityFramework.Events;
+using Samurai.UnityFramework.Pooling;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Samurai.UnityFramework
 
         public static bool IsPaused { get; private set; }
         public static EventAggregator Events => _data.Get<EventAggregator>();
+        public static ComponentPool Pool => _data.Get<ComponentPool>();
 
         #region Lifecycle
 
@@ -19,6 +21,7 @@ namespace Samurai.UnityFramework
             Log.Debug("Initializing.", LogTag);
             
             _data.Set(new EventAggregator());
+            _data.Set(new ComponentPool());
             
             Log.Debug("Initialized", LogTag);
         }

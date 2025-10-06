@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5d2743437c4e5a9ef5c393cc191d0c, type: 3}
   m_Name: AppConfig
   m_EditorClassIdentifier: Assembly-CSharp::Samurai.UnityFramework.Runtime.Defs.AppConfig
-  SkipIntro: 0
+  SkipIntro: 1
   ConfigsPath: Configs
   DefinitionsPath: Definitions
   IntroScene: IntroScene
   MainMenuScene: MainMenuScene
   LoadingScene: LoadingScene
   SessionScene: SessionScene
+  SaveFolderPath: Profiles

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Mirzipan.Extensions.Collections;
 using Newtonsoft.Json;
@@ -32,14 +33,15 @@ namespace Samurai.UnityFramework
                 return;
             }
 
-            folderPath = Path.Combine(Application.persistentDataPath, folderPath);
+            folderPath = GetFolderPath(folderPath);
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
 
             using var file = File.Open(filePath, FileMode.Create);
-            using var writer = new BinaryWriter(file);
+            // using var writer = new BinaryWriter(file);
+            using var writer = new StreamWriter(file); // TODO: for testing
             writer.Write(JsonConvert.SerializeObject(data, SerializerSettings));
             Log.Debug($"File saved on path '{filePath}'.", LogTag);
         }
@@ -66,11 +68,64 @@ namespace Samurai.UnityFramework
             }
 
             using var file = File.OpenRead(filePath);
-            using var reader = new BinaryReader(file);
-            string content = reader.ReadString();
+            // using var reader = new BinaryReader(file);
+            // string content = reader.ReadString();
+            using var reader = new StreamReader(file);
+            string content = reader.ReadToEnd();
             var state = JsonConvert.DeserializeObject<T>(content, SerializerSettings);
             Log.Debug($"Loaded file on path '{filePath}'.", LogTag);
             return state;
+        }
+
+        public static void GetAllFileNames(List<string> files, string path, string extension = null, bool recursive = false, bool includeExtension = false)
+        {
+            GetAllFilePaths(files, path, extension, recursive);
+            for (int i = 0; i < files.Count; i++)
+            {
+                if (includeExtension)
+                {
+                    files[i] = Path.GetFileName(files[i]);
+                }
+                else
+                {
+                    files[i] = Path.GetFileNameWithoutExtension(files[i]);
+                }
+            }
+        }
+        
+        public static void GetAllFilePaths(List<string> files, string path, string extension = null, bool recursive = false)
+        {
+            string folderPath = GetFolderPath(path);
+            if (!Directory.Exists(folderPath))
+            {
+                return;
+            }
+            
+            string searchPattern = extension.NotNullOrEmpty() ? $"*.{extension}" : "*";
+            var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            files.AddRange(Directory.GetFiles(folderPath, searchPattern, searchOption));
+        }
+
+        public static void GetAllDirectories(List<string> directories, string path, bool recursive = false)
+        {
+            string folderPath = GetFolderPath(path);
+            if (!Directory.Exists(folderPath))
+            {
+                return;
+            }
+            
+            var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            directories.AddRange(Directory.GetDirectories(folderPath, "*", searchOption));
+        }
+
+        private static string GetFolderPath(string folderPath)
+        {
+            if (folderPath.IsNullOrEmpty())
+            {
+                return null;
+            }
+            
+            return Path.Combine(Application.persistentDataPath, folderPath);
         }
 
         private static string GetFilePath(string folderPath, string fileName, string extension)

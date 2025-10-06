@@ -17,5 +17,8 @@ namespace Samurai.UnityFramework.Defs
         public string MainMenuScene;
         public string LoadingScene;
         public string SessionScene;
+
+        [Header("Saving")] 
+        public string SaveFolderPath = "Profiles";
     }
 }

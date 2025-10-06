@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Samurai.UnityFramework
 {
+    [Serializable]
     public class DataContainer
     {
         public readonly string Id;

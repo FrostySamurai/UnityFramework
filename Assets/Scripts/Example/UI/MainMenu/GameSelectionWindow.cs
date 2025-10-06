@@ -20,7 +20,7 @@ namespace Samurai.Example.UI.MainMenu
             _newGameButton.SetOnClickListener(LoadSession);
             _backButton.SetOnClickListener(() =>
             {
-                Profile.Unload();
+                Profile.Unload(true);
                 ShowWindow("Profiles");
             });
         }
