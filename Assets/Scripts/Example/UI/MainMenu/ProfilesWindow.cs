@@ -19,8 +19,6 @@ namespace Samurai.Example.UI.MainMenu
         [SerializeField] private Button _profilePrefab;
         [SerializeField] private RectTransform _profilesParent;
         
-        
-        
         protected override void OnShow()
         {
             App.Pool.ReturnChildren(_profilePrefab, _profilesParent);
@@ -48,6 +46,11 @@ namespace Samurai.Example.UI.MainMenu
         private void LoadProfile(string id)
         {
             Profile.Load(id);
+            if (!Profile.Current.TryGet<TestModel>(out _))
+            {
+                Profile.Current.Set(new TestModel("some text to save"));
+            }
+
             ShowWindow("GameSelection");
         }
     }

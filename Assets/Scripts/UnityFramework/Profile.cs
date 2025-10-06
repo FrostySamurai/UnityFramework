@@ -5,7 +5,7 @@ namespace Samurai.UnityFramework
 {
     public static class Profile
     {
-        private const string LogTag = "Profile";
+        internal const string LogTag = "Profile";
         
         // TODO: this should allow for loading multiple profiles (in case of multiplayer game)
         private static DataContainer _current;
@@ -20,13 +20,9 @@ namespace Samurai.UnityFramework
             Log.Debug($"Setting profile to '{id}'.", LogTag);
 
             var config = Definitions.Config<AppConfig>();
-            var profile = FileHandler.Load<DataContainer>(config.SaveFolderPath, id);
-            if (profile is not null)
-            {
-                Log.Debug($"Profile loaded from save file!", LogTag);
-            }
-
-            _current = profile ?? new DataContainer(id);
+            _current = new DataContainer(id);
+            _current.Load(config.SaveFolderPath);
+            
             return _current;
         }
 
@@ -54,7 +50,7 @@ namespace Samurai.UnityFramework
             }
             
             var config = Definitions.Config<AppConfig>();
-            FileHandler.Save(_current, config.SaveFolderPath, _current.Id);
+            _current.Save(config.SaveFolderPath);
         }
 
         #endregion Profile Handling
