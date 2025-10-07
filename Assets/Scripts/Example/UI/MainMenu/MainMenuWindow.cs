@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace Samurai.Example.UI.MainMenu
 {
+    [Window(MainMenuWindows.MainMenu)]
     public class MainMenuWindow : Window
     {
         [SerializeField] private Button _profilesButton;
@@ -13,7 +14,7 @@ namespace Samurai.Example.UI.MainMenu
         
         protected override void OnShow()
         {
-            _profilesButton.SetOnClickListener(() => ShowWindow("Profiles"));
+            _profilesButton.SetOnClickListener(ShowWindow<ProfilesWindow>);
             _exitButton.SetOnClickListener(App.Quit);
         }
     }

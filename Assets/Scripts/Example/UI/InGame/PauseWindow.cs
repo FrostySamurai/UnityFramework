@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace Samurai.Example.UI.InGame
 {
+    [Window(InGameWindows.Pause)]
     public class PauseWindow : Window
     {
         [SerializeField] private Button _continueButton;

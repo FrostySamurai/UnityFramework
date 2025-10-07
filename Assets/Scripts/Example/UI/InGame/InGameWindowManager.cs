@@ -10,7 +10,7 @@ namespace Samurai.Example.UI.InGame
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (Current is not null && Current.Id == "Pause")
+                if (Current is PauseWindow)
                 {
                     HideCurrent();
                     App.Resume();
@@ -18,7 +18,7 @@ namespace Samurai.Example.UI.InGame
                 else
                 {
                     App.Pause();
-                    Show("Pause");   
+                    Show<PauseWindow>();   
                 }
             }
         }

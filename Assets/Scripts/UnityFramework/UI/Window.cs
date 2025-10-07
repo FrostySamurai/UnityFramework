@@ -5,10 +5,6 @@ namespace Samurai.UnityFramework.UI
 {
     public abstract class Window : MonoBehaviour
     {
-        [SerializeField] private string _id;
-
-        public string Id => _id;
-
         protected WindowManager Manager;
 
         internal void Inject(WindowManager manager)
@@ -39,6 +35,11 @@ namespace Samurai.UnityFramework.UI
         protected abstract void OnShow();
         protected virtual void OnHide() {}
 
+        protected void ShowWindow<T>() where T : Window
+        {
+            Manager.Show<T>();
+        }
+        
         protected void ShowWindow(string id)
         {
             Manager.Show(id);

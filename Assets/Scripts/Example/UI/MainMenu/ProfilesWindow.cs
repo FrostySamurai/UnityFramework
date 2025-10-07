@@ -9,6 +9,7 @@ using Text = TMPro.TMP_Text;
 
 namespace Samurai.Example.UI.MainMenu
 {
+    [Window(MainMenuWindows.Profiles)]
     public class ProfilesWindow : Window
     {
         [SerializeField] private ProfileCreationView _profileCreation;
@@ -40,7 +41,7 @@ namespace Samurai.Example.UI.MainMenu
                 _profileCreation.Init(LoadProfile);
             });
             
-            _backButton.SetOnClickListener(() => ShowWindow("MainMenu"));
+            _backButton.SetOnClickListener(ShowWindow<MainMenuWindow>);
         }
 
         private void LoadProfile(string id)
@@ -51,7 +52,7 @@ namespace Samurai.Example.UI.MainMenu
                 Profile.Current.Set(new TestModel("some text to save"));
             }
 
-            ShowWindow("GameSelection");
+            ShowWindow<GameSelectionWindow>();
         }
     }
 }

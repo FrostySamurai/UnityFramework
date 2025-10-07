@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,17 +7,37 @@ namespace Samurai.UnityFramework.UI
 {
     public class WindowManager : MonoBehaviour
     {
+        public const string LogTag = "Windows";
+        
         [SerializeField] private Window _defaultWindow;
         [SerializeField] private List<Window> _windows;
 
+        private readonly Dictionary<string, Window> _windowsById = new();
+        private readonly Dictionary<Type, Window> _windowsByType = new();
+        
         protected Window Current;
         
-        private void Awake()
+        private async void Awake()
         {
-            _windows.ForEach(x => x.Inject(this));
+            foreach (var window in _windows)
+            {
+                window.Inject(this);
+                
+                var type = window.GetType();
+                _windowsByType[type] = window;
+
+                if (!type.TryGetCustomAttribute<WindowAttribute>(out var windowAttribute))
+                {
+                    Log.Warning($"Window {type.Name} is missing window attribute! Manager will not find the window by id.", LogTag);
+                    continue;
+                }
+                
+                _windowsById[windowAttribute.Id] = window;
+            }
+            
             if (_defaultWindow is not null)
             {
-                Show(_defaultWindow.Id);
+                await Show(_defaultWindow, false);
             }
         }
 
@@ -25,10 +46,25 @@ namespace Samurai.UnityFramework.UI
             _windows = GetComponentsInChildren<Window>(true).ToList();
         }
 
+        public async void Show<T>(bool instant = false) where T : Window
+        {
+            if (_windowsByType.TryGetValue(typeof(T), out var window))
+            {
+                await Show(window, instant);
+            }
+        }
+
         public async void Show(string id, bool instant = false)
         {
-            var target = _windows.Find(w => w.Id == id);
-            if (target is null)
+            if (_windowsById.TryGetValue(id, out var window))
+            {
+                await Show(window, instant);
+            }
+        }
+
+        private async Awaitable Show(Window window, bool instant)
+        {
+            if (window is null)
             {
                 return;
             }
@@ -38,7 +74,7 @@ namespace Samurai.UnityFramework.UI
                 await Current.Hide(instant);
             }
 
-            Current = target;
+            Current = window;
             await Current.Show(instant);
         }
 

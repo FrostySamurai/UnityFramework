@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 namespace Samurai.Example.UI.MainMenu
 {
+    [Window(MainMenuWindows.GameSelection)]
     public class GameSelectionWindow : Window
     {
         [SerializeField] private Button _continueButton;
@@ -21,7 +22,7 @@ namespace Samurai.Example.UI.MainMenu
             _backButton.SetOnClickListener(() =>
             {
                 Profile.Unload(true);
-                ShowWindow("Profiles");
+                ShowWindow<ProfilesWindow>();
             });
         }
 
