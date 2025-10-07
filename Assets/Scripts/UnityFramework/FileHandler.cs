@@ -40,8 +40,7 @@ namespace Samurai.UnityFramework
             }
 
             using var file = File.Open(filePath, FileMode.Create);
-            // using var writer = new BinaryWriter(file);
-            using var writer = new StreamWriter(file); // TODO: for testing
+            using var writer = new BinaryWriter(file);
             writer.Write(JsonConvert.SerializeObject(data, SerializerSettings));
             Log.Debug($"File saved on path '{filePath}'.", LogTag);
         }
@@ -68,10 +67,8 @@ namespace Samurai.UnityFramework
             }
 
             using var file = File.OpenRead(filePath);
-            // using var reader = new BinaryReader(file);
-            // string content = reader.ReadString();
-            using var reader = new StreamReader(file);
-            string content = reader.ReadToEnd();
+            using var reader = new BinaryReader(file);
+            string content = reader.ReadString();
             var state = JsonConvert.DeserializeObject<T>(content, SerializerSettings);
             Log.Debug($"Loaded file on path '{filePath}'.", LogTag);
             return state;

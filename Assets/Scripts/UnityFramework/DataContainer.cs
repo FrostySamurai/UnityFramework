@@ -25,12 +25,12 @@ namespace Samurai.UnityFramework
 
         public void Save(string folderPath)
         {
-            using var obj = ListPool<ISavable>.Get(out var savables);
+            using var obj = ListPool<object>.Get(out var savables);
             foreach (object entry in _data.Values)
             {
-                if (entry is ISavable savable)
+                if (entry.HasAttribute<SavableAttribute>())
                 {
-                    savables.Add(savable);
+                    savables.Add(entry);
                 }
             }
             
@@ -39,7 +39,7 @@ namespace Samurai.UnityFramework
 
         public void Load(string folderPath)
         {
-            var savables = FileHandler.Load<List<ISavable>>(folderPath, Id);
+            var savables = FileHandler.Load<List<object>>(folderPath, Id);
             if (savables is null)
             {
                 return;

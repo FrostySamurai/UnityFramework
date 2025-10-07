@@ -3,8 +3,8 @@ using Samurai.UnityFramework;
 
 namespace Samurai.Example
 {
-    [Serializable]
-    public class TestModel : ISavable
+    [Serializable, Savable]
+    public class TestModel
     {
         public string Text;
 
