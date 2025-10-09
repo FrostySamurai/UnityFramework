@@ -10,7 +10,6 @@ namespace Samurai.UnityFramework
     {
         public readonly string Id;
         
-        // TODO: this doesn't save values properly
         private readonly Dictionary<Type, object> _data = new();
 
         public DataContainer(string id)

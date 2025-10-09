@@ -10,6 +10,7 @@ namespace Samurai.UnityFramework
 
         private static readonly Dictionary<string, DataContainer> _sceneContexts = new();
 
+        // TODO: since this is called from awake only active objects can register themselves
         public static void SetReference<T>(T component) where T : Component
         {
             if (_sceneContexts.TryGetValue(component.gameObject.scene.name, out var context))
