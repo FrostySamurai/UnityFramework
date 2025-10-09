@@ -18,7 +18,7 @@ namespace Samurai.Example.UI.InGame
                 else
                 {
                     App.Pause();
-                    Show<PauseWindow>();   
+                    Show<PauseWindow>();
                 }
             }
         }

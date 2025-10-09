@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Samurai.UnityFramework.UI.Transitions
@@ -13,31 +14,30 @@ namespace Samurai.UnityFramework.UI.Transitions
         [SerializeField] private float _fadeOutDuration;
         [SerializeField] private Ease _fadeOutEase;
         [SerializeField] private bool _useUnscaledTime = true;
-        
-        
-        public override async Awaitable Show(bool instant)
+
+        public override IEnumerator Show(bool instant)
         {
             if (instant)
             {
                 _canvasGroup.alpha = 1f;
-                return;
+                yield break;
             }
-
+            
             _canvasGroup.alpha = 0f;
             var tween = _canvasGroup.DOFade(1f, _fadeInDuration).SetEase(_fadeInEase).SetUpdate(_useUnscaledTime);
-            await tween.AsyncWaitForCompletion();
+            yield return tween.WaitForCompletion();
         }
 
-        public override async Awaitable Hide(bool instant)
+        public override IEnumerator Hide(bool instant)
         {
             if (instant)
             {
                 _canvasGroup.alpha = 0f;
-                return;
+                yield break;
             }
 
             var tween = _canvasGroup.DOFade(0f, _fadeOutDuration).SetEase(_fadeOutEase).SetUpdate(_useUnscaledTime);
-            await tween.AsyncWaitForCompletion();
+            yield return tween.WaitForCompletion();
         }
     }
 }

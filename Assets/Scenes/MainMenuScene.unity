@@ -1597,7 +1597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795209c5e7164a929c504debd500279a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Samurai.Example.UI.ProfilesWindow
-  _id: Profiles
   _profileCreation: {fileID: 1707367625}
   _profilesButton: {fileID: 870429069701156603}
   _backButton: {fileID: 1392348907}
@@ -3069,7 +3068,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ffa2c631864447a3d3cd123f1aac11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Samurai.Example.UI.GameSelectionWindow
-  _id: GameSelection
   _continueButton: {fileID: 230486172}
   _newGameButton: {fileID: 1038816871}
   _backButton: {fileID: 1372220925}
@@ -3470,7 +3468,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8f8725fa004fe8816b840d8794efd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Samurai.Example.UI.MainMenuWindow
-  _id: MainMenu
   _profilesButton: {fileID: 179212818}
   _exitButton: {fileID: 693677975}
 --- !u!114 &1636893978

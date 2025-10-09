@@ -39,6 +39,7 @@ namespace Samurai.UnityFramework
                 Directory.CreateDirectory(folderPath);
             }
 
+            // TODO: async loading/saving with await support
             using var file = File.Open(filePath, FileMode.Create);
             using var writer = new BinaryWriter(file);
             writer.Write(JsonConvert.SerializeObject(data, SerializerSettings));

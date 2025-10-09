@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Samurai.UnityFramework.UI
         
         protected Window Current;
         
-        private async void Awake()
+        private void Awake()
         {
             foreach (var window in _windows)
             {
@@ -37,7 +38,7 @@ namespace Samurai.UnityFramework.UI
             
             if (_defaultWindow is not null)
             {
-                await Show(_defaultWindow, false);
+                Show(_defaultWindow);
             }
         }
 
@@ -46,47 +47,55 @@ namespace Samurai.UnityFramework.UI
             _windows = GetComponentsInChildren<Window>(true).ToList();
         }
 
-        public async void Show<T>(bool instant = false) where T : Window
+        public void Show<T>(bool instant = false)
         {
             if (_windowsByType.TryGetValue(typeof(T), out var window))
             {
-                await Show(window, instant);
+                Show(window, instant);
             }
         }
 
-        public async void Show(string id, bool instant = false)
+        public void Show(string id, bool instant = false)
         {
             if (_windowsById.TryGetValue(id, out var window))
             {
-                await Show(window, instant);
+                Show(window, instant);
             }
         }
+        
+        private void Show(Window window, bool instantly = false)
+        {
+            StartCoroutine(ShowCoroutine(window, instantly));
+        }
 
-        private async Awaitable Show(Window window, bool instant)
+        public void HideCurrent(bool instant = false)
+        {
+            StartCoroutine(HideCurrentCoroutine(instant));
+        }
+
+        private IEnumerator ShowCoroutine(Window window, bool instant)
         {
             if (window is null)
             {
-                return;
+                yield break;
             }
 
             if (Current is not null)
             {
-                await Current.Hide(instant);
+                yield return Current.Hide(instant);
             }
 
             Current = window;
-            await Current.Show(instant);
+            yield return Current.Show(instant);
         }
 
-        public async void HideCurrent()
+        private IEnumerator HideCurrentCoroutine(bool instant)
         {
-            if (Current is null)
+            if (Current is not null)
             {
-                return;
+                yield return Current.Hide(instant);
+                Current = null;
             }
-            
-            await Current.Hide();
-            Current = null;
         }
     }
 }

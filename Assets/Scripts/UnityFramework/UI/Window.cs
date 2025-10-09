@@ -1,4 +1,6 @@
-﻿using Mirzipan.Extensions.Unity;
+﻿using System.Collections;
+using Mirzipan.Extensions.Unity;
+using Samurai.UnityFramework.UI.Transitions;
 using UnityEngine;
 
 namespace Samurai.UnityFramework.UI
@@ -11,22 +13,22 @@ namespace Samurai.UnityFramework.UI
         {
             Manager = manager;
         }
-        
-        public async Awaitable Show(bool instant = false)
+
+        public IEnumerator Show(bool instant = false)
         {
             OnShow();
             this.SetActive(true);
             if (TryGetComponent<UiTransition>(out var transition))
             {
-                await transition.Show(instant);
+                yield return transition.Show(instant);
             }
         }
 
-        public async Awaitable Hide(bool instant = false)
+        public IEnumerator Hide(bool instant = false)
         {
             if (TryGetComponent<UiTransition>(out var transition))
             {
-                await transition.Hide(instant);
+                yield return transition.Hide(instant);
             }
             this.SetActive(false);
             OnHide();
