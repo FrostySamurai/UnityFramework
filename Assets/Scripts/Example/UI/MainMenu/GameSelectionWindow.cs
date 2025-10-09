@@ -28,21 +28,20 @@ namespace Samurai.Example.UI.MainMenu
         private async void LoadSession()
         {
             var config = Definitions.Config<AppConfig>();
-            var sceneHandler = App.Get<SceneHandler>();
 
             Session.Create("Session");
             
-            await sceneHandler.Load(config.LoadingScene);
-            await sceneHandler.Unload(config.MainMenuScene);
+            await Scenes.Load(config.LoadingScene);
+            await Scenes.Unload(config.MainMenuScene);
 
             await Awaitable.MainThreadAsync();
-            if (SceneHandler.TryGetReference<Loader>(config.LoadingScene, out var loader))
+            if (Scenes.TryGetReference<Loader>(config.LoadingScene, out var loader))
             {
                 await loader.Load();
             }
             
-            var sessionLoad = sceneHandler.Load(config.SessionScene);
-            var loadingUnload = sceneHandler.Unload(config.LoadingScene);
+            var sessionLoad = Scenes.Load(config.SessionScene);
+            var loadingUnload = Scenes.Unload(config.LoadingScene);
 
             await sessionLoad;
             await loadingUnload;

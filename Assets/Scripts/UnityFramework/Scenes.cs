@@ -4,9 +4,9 @@ using UnityEngine.SceneManagement;
 
 namespace Samurai.UnityFramework
 {
-    public class SceneHandler : MonoBehaviour
+    public static class Scenes
     {
-        private const string LogTag = "Scenes";
+        private const string LogTag = nameof(Scenes);
 
         private static readonly Dictionary<string, DataContainer> _sceneContexts = new();
 
@@ -34,7 +34,7 @@ namespace Samurai.UnityFramework
             return reference != null;
         }
         
-        public async Awaitable Load(string sceneName)
+        public static async Awaitable Load(string sceneName)
         {
             Log.Debug($"Loading '{sceneName}'.", LogTag);
             
@@ -44,7 +44,7 @@ namespace Samurai.UnityFramework
             Log.Debug($"Loaded '{sceneName}'.", LogTag);
         }
 
-        public async Awaitable Unload(string sceneName)
+        public static async Awaitable Unload(string sceneName)
         {
             var scene = SceneManager.GetSceneByName(sceneName);
             if (!scene.isLoaded)

@@ -4,7 +4,7 @@ namespace Samurai.UnityFramework
 {
     public static class Session
     {
-        private const string LogTag = "Session";
+        private const string LogTag = nameof(Session);
 
         private static DataContainer _sessionData;
 

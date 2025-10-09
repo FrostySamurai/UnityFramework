@@ -32,12 +32,11 @@ namespace Samurai.Example.UI.InGame
             App.Resume();
 
             var config = Definitions.Config<AppConfig>();
-            var sceneHandler = Session.Get<SceneHandler>();
 
-            await sceneHandler.Load(config.MainMenuScene);
-            await sceneHandler.Unload(config.SessionScene);
+            await Scenes.Load(config.MainMenuScene);
+            await Scenes.Unload(config.SessionScene);
 
-            if (SceneHandler.TryGetReference<WindowManager>(config.MainMenuScene, out var windowManager))
+            if (Scenes.TryGetReference<WindowManager>(config.MainMenuScene, out var windowManager))
             {
                 windowManager.Show<GameSelectionWindow>(force: true);
             }

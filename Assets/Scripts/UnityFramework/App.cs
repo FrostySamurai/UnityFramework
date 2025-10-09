@@ -7,7 +7,7 @@ namespace Samurai.UnityFramework
 {
     public static class App
     {
-        private const string LogTag = "Application";
+        private const string LogTag = nameof(App);
         private static DataContainer _data = new(nameof(App));
 
         public static bool IsPaused { get; private set; }

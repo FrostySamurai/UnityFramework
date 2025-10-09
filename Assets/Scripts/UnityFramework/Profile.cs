@@ -5,7 +5,7 @@ namespace Samurai.UnityFramework
 {
     public static class Profile
     {
-        internal const string LogTag = "Profile";
+        internal const string LogTag = nameof(Profile);
         
         // TODO: this should allow for loading multiple profiles (in case of multiplayer game)
         private static DataContainer _current;

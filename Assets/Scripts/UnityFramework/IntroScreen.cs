@@ -10,7 +10,7 @@ namespace Samurai.UnityFramework
 
         private void Awake()
         {
-            SceneHandler.SetReference(this);
+            Scenes.SetReference(this);
         }
 
         public async Awaitable Show()

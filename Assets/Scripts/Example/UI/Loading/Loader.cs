@@ -19,7 +19,7 @@ namespace Samurai.Example.UI.Loading
 
         private void Awake()
         {
-            SceneHandler.SetReference(this);
+            Scenes.SetReference(this);
         }
 
         private void Update()

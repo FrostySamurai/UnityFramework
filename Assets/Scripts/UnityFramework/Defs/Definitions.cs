@@ -7,7 +7,7 @@ namespace Samurai.UnityFramework.Defs
 {
     public class Definitions
     {
-        internal const string LogTag = "Definitions";
+        internal const string LogTag = nameof(Definitions);
 
         #region Static
 

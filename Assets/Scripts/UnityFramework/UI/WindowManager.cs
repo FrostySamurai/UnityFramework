@@ -8,7 +8,7 @@ namespace Samurai.UnityFramework.UI
 {
     public class WindowManager : MonoBehaviour
     {
-        public const string LogTag = "Windows";
+        internal const string LogTag = "Windows";
         
         [SerializeField] private Window _defaultWindow;
         [SerializeField] private List<Window> _windows;
@@ -22,7 +22,7 @@ namespace Samurai.UnityFramework.UI
         
         private void Awake()
         {
-            SceneHandler.SetReference(this);
+            Scenes.SetReference(this);
             
             foreach (var window in _windows)
             {
