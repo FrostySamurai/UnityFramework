@@ -16,7 +16,12 @@ namespace Samurai.Example.UI.Loading
 
         private bool _waitingForInput;
         private bool _continuePressed;
-        
+
+        private void Awake()
+        {
+            SceneHandler.SetReference(this);
+        }
+
         private void Update()
         {
             if (_waitingForInput && Input.anyKeyDown)

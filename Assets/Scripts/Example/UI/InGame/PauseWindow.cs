@@ -4,7 +4,6 @@ using Samurai.UnityFramework;
 using Samurai.UnityFramework.Defs;
 using Samurai.UnityFramework.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Samurai.Example.UI.InGame
@@ -38,15 +37,9 @@ namespace Samurai.Example.UI.InGame
             await sceneHandler.Load(config.MainMenuScene);
             await sceneHandler.Unload(config.SessionScene);
 
-            var scene = SceneManager.GetSceneByName(config.MainMenuScene);
-            foreach (var entry in scene.GetRootGameObjects())
+            if (SceneHandler.TryGetReference<WindowManager>(config.MainMenuScene, out var windowManager))
             {
-                var manager = entry.GetComponentInChildren<WindowManager>();
-                if (manager is not null)
-                {
-                    manager.Show<GameSelectionWindow>(force: true);
-                    break;
-                }
+                windowManager.Show<GameSelectionWindow>(force: true);
             }
             
             Session.Dispose();

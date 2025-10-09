@@ -1,6 +1,5 @@
 using Samurai.UnityFramework.Defs;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Samurai.UnityFramework
 {
@@ -25,14 +24,9 @@ namespace Samurai.UnityFramework
             
             await _sceneHandler.Load(_config.IntroScene);
 
-            var scene = SceneManager.GetSceneByName(_config.IntroScene);
-            foreach (var entry in scene.GetRootGameObjects())
+            if (SceneHandler.TryGetReference<IntroScreen>(_config.IntroScene, out var intro))
             {
-                if (entry.TryGetComponent<IntroScreen>(out var intro))
-                {
-                    await intro.Show();
-                    break;
-                }
+                await intro.Show();
             }
 
             await _sceneHandler.Load(_config.MainMenuScene);

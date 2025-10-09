@@ -7,7 +7,12 @@ namespace Samurai.UnityFramework
     public class IntroScreen : MonoBehaviour
     {
         [SerializeField] private List<CanvasGroup> _canvasGroups = new();
-        
+
+        private void Awake()
+        {
+            SceneHandler.SetReference(this);
+        }
+
         public async Awaitable Show()
         {
             foreach (var entry in _canvasGroups)

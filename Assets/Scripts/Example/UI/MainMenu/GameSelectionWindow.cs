@@ -4,7 +4,6 @@ using Samurai.UnityFramework;
 using Samurai.UnityFramework.Defs;
 using Samurai.UnityFramework.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Samurai.Example.UI.MainMenu
@@ -37,14 +36,9 @@ namespace Samurai.Example.UI.MainMenu
             await sceneHandler.Unload(config.MainMenuScene);
 
             await Awaitable.MainThreadAsync();
-            var scene = SceneManager.GetSceneByName(config.LoadingScene);
-            foreach (var go in scene.GetRootGameObjects())
+            if (SceneHandler.TryGetReference<Loader>(config.LoadingScene, out var loader))
             {
-                if (go.TryGetComponent<Loader>(out var loader))
-                {
-                    await loader.Load();
-                    break;
-                }
+                await loader.Load();
             }
             
             var sessionLoad = sceneHandler.Load(config.SessionScene);

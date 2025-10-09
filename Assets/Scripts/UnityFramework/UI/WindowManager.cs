@@ -22,6 +22,8 @@ namespace Samurai.UnityFramework.UI
         
         private void Awake()
         {
+            SceneHandler.SetReference(this);
+            
             foreach (var window in _windows)
             {
                 window.Inject(this);
