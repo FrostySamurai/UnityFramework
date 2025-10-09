@@ -47,11 +47,6 @@ namespace Samurai.Example.UI.MainMenu
         private void LoadProfile(string id)
         {
             Profile.Load(id);
-            if (!Profile.Current.TryGet<TestModel>(out _))
-            {
-                Profile.Current.Set(new TestModel("some text to save"));
-            }
-
             ShowWindow<GameSelectionWindow>();
         }
     }
