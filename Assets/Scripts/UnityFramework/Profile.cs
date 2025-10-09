@@ -15,15 +15,13 @@ namespace Samurai.UnityFramework
 
         #region Profile Handling
 
-        public static DataContainer Load(string id)
+        public static void Load(string id)
         {
             Log.Debug($"Setting profile to '{id}'.", LogTag);
 
             var config = Definitions.Config<AppConfig>();
             _current = new DataContainer(id);
             _current.Load(config.SaveFolderPath);
-            
-            return _current;
         }
 
         public static void Unload(bool save = false)
