@@ -34,6 +34,12 @@ namespace Samurai.UnityFramework.UI
             OnHide();
         }
 
+        public void ForceHide()
+        {
+            this.SetActive(false);
+            OnHide();
+        }
+
         protected abstract void OnShow();
         protected virtual void OnHide() {}
 

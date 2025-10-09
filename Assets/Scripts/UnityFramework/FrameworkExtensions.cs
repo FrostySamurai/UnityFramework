@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using Mirzipan.Extensions.Unity;
+using UnityEngine;
 
 namespace Samurai.UnityFramework
 {
@@ -30,5 +32,17 @@ namespace Samurai.UnityFramework
         }
 
         #endregion Type
+
+        #region Component
+
+        public static void SetActiveSafe(this Component @this, bool value)
+        {
+            if (@this is not null)
+            {
+                @this.SetActive(value);
+            }
+        }
+
+        #endregion Component
     }
 }

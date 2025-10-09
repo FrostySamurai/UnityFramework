@@ -15,6 +15,8 @@ namespace Samurai.UnityFramework.UI
 
         private readonly Dictionary<string, Window> _windowsById = new();
         private readonly Dictionary<Type, Window> _windowsByType = new();
+
+        private Coroutine _currentTransition;
         
         protected Window Current;
         
@@ -38,7 +40,7 @@ namespace Samurai.UnityFramework.UI
             
             if (_defaultWindow is not null)
             {
-                Show(_defaultWindow);
+                Show(_defaultWindow, false, false);
             }
         }
 
@@ -47,30 +49,47 @@ namespace Samurai.UnityFramework.UI
             _windows = GetComponentsInChildren<Window>(true).ToList();
         }
 
-        public void Show<T>(bool instant = false)
+        public void Show<T>(bool instant = false, bool force = false)
         {
             if (_windowsByType.TryGetValue(typeof(T), out var window))
             {
-                Show(window, instant);
+                Show(window, instant, force);
             }
         }
 
-        public void Show(string id, bool instant = false)
+        public void Show(string id, bool instant = false, bool force = false)
         {
             if (_windowsById.TryGetValue(id, out var window))
             {
-                Show(window, instant);
+                Show(window, instant, force);
             }
         }
         
-        private void Show(Window window, bool instantly = false)
+        // TODO ensure two coroutines can't run at the same time
+        // TODO 1: don't allow multiple at once
+        // TODO 2: cancel the running transition and start the new one
+        // TODO 3: queue up new transitions and wait for current to finish
+        
+        // TODO: doing the force stuff like this is maybe not the nicest of solutions at all
+        private void Show(Window window, bool instant, bool force)
         {
-            StartCoroutine(ShowCoroutine(window, instantly));
+            if (force)
+            {
+                if (_currentTransition is not null)
+                {
+                    StopCoroutine(_currentTransition);
+                }
+                
+                if (Current) 
+                    Current.ForceHide();
+            }
+            
+            _currentTransition = StartCoroutine(ShowCoroutine(window, instant));
         }
 
         public void HideCurrent(bool instant = false)
         {
-            StartCoroutine(HideCurrentCoroutine(instant));
+            _currentTransition = StartCoroutine(HideCurrentCoroutine(instant));
         }
 
         private IEnumerator ShowCoroutine(Window window, bool instant)
@@ -87,6 +106,8 @@ namespace Samurai.UnityFramework.UI
 
             Current = window;
             yield return Current.Show(instant);
+
+            _currentTransition = null;
         }
 
         private IEnumerator HideCurrentCoroutine(bool instant)
@@ -96,6 +117,8 @@ namespace Samurai.UnityFramework.UI
                 yield return Current.Hide(instant);
                 Current = null;
             }
+
+            _currentTransition = null;
         }
     }
 }
