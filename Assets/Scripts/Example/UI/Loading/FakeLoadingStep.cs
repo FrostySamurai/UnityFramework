@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Samurai.UnityFramework.Loading;
+using UnityEngine;
 
 namespace Samurai.Example.UI.Loading
 {

@@ -17,8 +17,7 @@ namespace Samurai.UnityFramework
         {
             foreach (var entry in _canvasGroups)
             {
-                var tween = entry.DOFade(1f, 2f)
-                    .SetEase(Ease.InCubic);
+                var tween = entry.DOFade(1f, 2f).SetEase(Ease.InCubic);
                 await tween.AsyncWaitForCompletion();
 
                 tween = entry.DOFade(0f, 2f).SetEase(Ease.OutCubic);

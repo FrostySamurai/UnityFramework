@@ -10,6 +10,8 @@ namespace Samurai.UnityFramework
 
         private static readonly Dictionary<string, DataContainer> _sceneContexts = new();
 
+        #region Scene References
+
         // TODO: since this is called from awake only active objects can register themselves
         public static void SetReference<T>(T component) where T : Component
         {
@@ -33,7 +35,11 @@ namespace Samurai.UnityFramework
             }
             return reference != null;
         }
-        
+
+        #endregion Scene References
+
+        #region Scene Management
+
         public static async Awaitable Load(string sceneName)
         {
             Log.Debug($"Loading '{sceneName}'.", LogTag);
@@ -59,5 +65,7 @@ namespace Samurai.UnityFramework
             
             Log.Debug($"Unloaded '{sceneName}'.", LogTag);
         }
+
+        #endregion Scene Management
     }
 }

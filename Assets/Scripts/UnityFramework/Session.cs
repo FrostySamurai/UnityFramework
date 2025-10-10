@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.IO;
+using Samurai.UnityFramework.Defs;
 using Samurai.UnityFramework.Events;
 
 namespace Samurai.UnityFramework
@@ -13,9 +16,11 @@ namespace Samurai.UnityFramework
         public static void Create(string id)
         {
             Log.Debug("Initializing.", LogTag);
-            _sessionData = new DataContainer(id);
             
+            _sessionData = new DataContainer(id);
             _sessionData.Set(new EventAggregator(App.Events));
+            _sessionData.Load(GetSaveFolderPath());
+            
             Log.Debug("Initialized.", LogTag);
         }
 
@@ -62,15 +67,32 @@ namespace Samurai.UnityFramework
             }
             
             Log.Debug($"Saving session '{_sessionData.Id}'.", LogTag);
-            
-            // TODO: saving
-            
-            Log.Debug($"Session saved.", LogTag);
+            _sessionData.Save(GetSaveFolderPath());
         }
 
         public static bool Exists()
         {
             return _sessionData is not null;
+        }
+
+        #region Utilities
+
+        public static void GetSaves(List<string> saves)
+        {
+            FileHandler.GetAllFileNames(saves, GetSaveFolderPath(), Definitions.Config<AppConfig>().SaveExtension);
+        }
+
+        #endregion Utilities
+
+        private static string GetSaveFolderPath()
+        {
+            var appConfig = Definitions.Config<AppConfig>();
+            if (!Profile.Exists)
+            {
+                return appConfig.SaveFolderPath;
+            }
+
+            return Path.Combine(appConfig.SaveFolderPath, Profile.Current.Id);
         }
     }
 }

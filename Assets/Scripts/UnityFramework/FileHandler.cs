@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using Mirzipan.Extensions.Collections;
 using Newtonsoft.Json;
+using Samurai.UnityFramework.Defs;
 using UnityEngine;
 
 namespace Samurai.UnityFramework
@@ -16,8 +17,9 @@ namespace Samurai.UnityFramework
             TypeNameHandling = TypeNameHandling.All, // TODO: maybe not all?
         };
         
-        public static void Save<T>(T data, string folderPath, string fileName, string extension = "sav")
+        public static void Save<T>(T data, string folderPath, string fileName, string extension = null)
         {
+            extension ??= Definitions.Config<AppConfig>().SaveExtension;
             string filePath = GetFilePath(folderPath, fileName, extension);
             if (fileName.IsNullOrEmpty())
             {
@@ -45,8 +47,9 @@ namespace Samurai.UnityFramework
             Log.Debug($"File saved on path '{filePath}'.", LogTag);
         }
 
-        public static T Load<T>(string folderPath, string fileName, string extension = "sav")
+        public static T Load<T>(string folderPath, string fileName, string extension = null)
         {
+            extension ??= Definitions.Config<AppConfig>().SaveExtension;
             string filePath = GetFilePath(folderPath, fileName, extension);
             if (filePath.IsNullOrEmpty())
             {

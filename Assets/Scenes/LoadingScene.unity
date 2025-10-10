@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 484082698}
   - component: {fileID: 484082697}
   - component: {fileID: 484082702}
+  - component: {fileID: 484082703}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -273,6 +274,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Samurai.Example.UI.Loading.Loader
   _progressBar: {fileID: 929367440}
   _loadingText: {fileID: 730230955}
+  _waitForPlayerInput: 1
+--- !u!114 &484082703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484082696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 080d56c2a52e4c1abb0f84847c9dd238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Samurai.Example.UI.Loading.ExampleComponentLoadingStepProvider
 --- !u!1 &535664158
 GameObject:
   m_ObjectHideFlags: 0

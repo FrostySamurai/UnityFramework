@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Samurai.UnityFramework.Defs
 {
@@ -20,5 +21,6 @@ namespace Samurai.UnityFramework.Defs
 
         [Header("Saving")] 
         public string SaveFolderPath = "Profiles";
+        [FormerlySerializedAs("DefaultExtension")] public string SaveExtension = "sav";
     }
 }

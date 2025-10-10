@@ -11,7 +11,7 @@ namespace Samurai.UnityFramework
         private static DataContainer _current;
 
         public static DataContainer Current => _current;
-        public static bool Exists => _current is not null; // TODO: maybe a better name
+        public static bool Exists => _current is not null;
 
         #region Profile Handling
 
@@ -58,7 +58,7 @@ namespace Samurai.UnityFramework
         public static void GetExistingProfiles(List<string> profileIds)
         {
             var config = Definitions.Config<AppConfig>();
-            FileHandler.GetAllFileNames(profileIds, config.SaveFolderPath, "sav");
+            FileHandler.GetAllFileNames(profileIds, config.SaveFolderPath, Definitions.Config<AppConfig>().SaveExtension);
         }
 
         #endregion Utilities

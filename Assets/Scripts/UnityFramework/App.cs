@@ -1,5 +1,10 @@
+using Samurai.Example.UI.Loading;
+using Samurai.Example.UI.MainMenu;
+using Samurai.UnityFramework.Defs;
 using Samurai.UnityFramework.Events;
+using Samurai.UnityFramework.Loading;
 using Samurai.UnityFramework.Pooling;
+using Samurai.UnityFramework.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -47,7 +52,45 @@ namespace Samurai.UnityFramework
 
         #endregion Lifecycle
 
-        #region Gameplay
+        #region Session
+
+        public static async void StartSession(string id, params  ILoadingStepProvider[] loadingStepProviders)
+        {
+            var config = Definitions.Config<AppConfig>();
+
+            Session.Create(id);
+            
+            await Scenes.Load(config.LoadingScene);
+            await Scenes.Unload(config.MainMenuScene);
+
+            await Awaitable.MainThreadAsync();
+            if (Scenes.TryGetReference<Loader>(config.LoadingScene, out var loader))
+            {
+                loader.Add(loadingStepProviders);
+                await loader.Load();
+            }
+            
+            var sessionLoad = Scenes.Load(config.SessionScene);
+            var loadingUnload = Scenes.Unload(config.LoadingScene);
+
+            await sessionLoad;
+            await loadingUnload;
+        }
+
+        public static async void EndSession()
+        {
+            var config = Definitions.Config<AppConfig>();
+
+            await Scenes.Load(config.MainMenuScene);
+            await Scenes.Unload(config.SessionScene);
+
+            if (Scenes.TryGetReference<WindowManager>(config.MainMenuScene, out var windowManager))
+            {
+                windowManager.Show<GameSelectionWindow>(force: true);
+            }
+            
+            Session.Dispose();
+        }
 
         public static void TogglePause()
         {
@@ -73,7 +116,7 @@ namespace Samurai.UnityFramework
             Time.timeScale = 1f;
         }
 
-        #endregion Gameplay
+        #endregion Session
 
         #region Data
 
